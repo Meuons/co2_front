@@ -1,7 +1,21 @@
 .App {
   text-align: center;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lightgray;
+  width: 100vw;
+  height: 100vh
 
+}
+.Wrapper{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
