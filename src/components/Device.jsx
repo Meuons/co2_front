@@ -8,7 +8,7 @@ const url = "https://co2-server-app.herokuapp.com/devices";
 const styles = {
   wrapper: {
     position: "relative",
-    top: 400,
+    top: 500,
     width: 2000,
     boxShadow: "black 10px 5px 5px",
     backgroundColor: "white",
