@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/co2_front/static/css/main.937dd4b7.css",
-    "main.js": "/co2_front/static/js/main.672ef91c.js",
+    "main.js": "/co2_front/static/js/main.755fbdf5.js",
     "static/js/787.161448da.chunk.js": "/co2_front/static/js/787.161448da.chunk.js",
     "index.html": "/co2_front/index.html",
     "main.937dd4b7.css.map": "/co2_front/static/css/main.937dd4b7.css.map",
-    "main.672ef91c.js.map": "/co2_front/static/js/main.672ef91c.js.map",
+    "main.755fbdf5.js.map": "/co2_front/static/js/main.755fbdf5.js.map",
     "787.161448da.chunk.js.map": "/co2_front/static/js/787.161448da.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.937dd4b7.css",
-    "static/js/main.672ef91c.js"
+    "static/js/main.755fbdf5.js"
   ]
 }
