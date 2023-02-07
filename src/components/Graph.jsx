@@ -17,7 +17,7 @@ export default function TestGraph({ date, name }) {
   useEffect(() => {
     async function fetchData() {
       if (data) {
-        console.log(data.set);
+
         const getMinuteDerivative = (i) => {
           if (i > 0 && i < data.set.length - 1) {
             const y1 = data.set[i - 1].ECO2;
