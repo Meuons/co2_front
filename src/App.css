@@ -3,18 +3,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: lightgray;
+  background-color: white;
   width: 100vw;
-  height: 100vh
-
+  height: 100vh;
 }
-.Wrapper{
+.Wrapper {
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-
-
 }
 .App-logo {
   height: 40vmin;

@@ -1,14 +1,18 @@
 import BatteryGauge from "react-battery-gauge";
-import {ValueContainer} from "./ValueContainer";
+import { ValueContainer } from "./ValueContainer";
+import { getData } from "../API/getData";
 import React, { useState, useEffect } from "react";
-const url = "http://localhost:3000/devices";
+import Graph from "./Graph";
+const url = "https://co2-server-app.herokuapp.com/devices";
 
 const styles = {
   wrapper: {
-    width: 1000,
+    position: "relative",
+    top: 400,
+    width: 3000,
     boxShadow: "black 10px 5px 5px",
-    backgroundColor: 'white',
-    margin: 20
+    backgroundColor: "white",
+    margin: 20,
   },
   header: {
     display: "flex",
@@ -23,7 +27,7 @@ const styles = {
     position: "relative",
     left: 300,
   },
-  values:{
+  values: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -39,85 +43,93 @@ const styles = {
 
 export default function Device() {
   const [deviceData, setDeviceData] = useState([]);
-
-  const fetchData = () => {
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setDeviceData(data);
-
-      });
-  };
+  const today = new Date();
+  const date = today.toISOString().split("T")[0];
 
   useEffect(() => {
-    fetchData();
     setInterval(() => {
-      fetchData();
+      getData(url, (result) => {
+        const { data, error } = result;
+        if (error) {
+          // Handle error
+          return;
+        }
+
+        if (data) {
+          setDeviceData(data);
+        }
+      });
     }, 1000);
   }, []);
   return (
     <>
       {deviceData.devices == undefined ? (
         <div>
-         <h1>Loading...</h1>
+          <h1>Loading...</h1>
         </div>
       ) : (
-          <div>
-            {deviceData.devices.map((item, i) => (
+        <div>
+          {deviceData.devices.map((item, i) => (
+            <div>
+              {item !== null ? (
                 <div key={i} style={styles.wrapper}>
                   <div style={styles.header}>
                     <div style={styles.leftHeader}>
                       <h1>{item.deviceName}</h1>
                       {item.onlineStatus == 1 ? (
-                          <span style={styles.online}>online</span>
+                        <span style={styles.online}>online</span>
                       ) : (
-                          <span style={styles.offline}>offline</span>
+                        <span style={styles.offline}>offline</span>
                       )}
                     </div>
                     <BatteryGauge
-                        customization={{
-                          readingText: {
-                            fontSize: 34,
-                          },
-                        }}
-                        style={styles.battery}
-                        size={60}
-                        value={item.batteryPer}
+                      customization={{
+                        readingText: {
+                          fontSize: 34,
+                        },
+                      }}
+                      style={styles.battery}
+                      size={60}
+                      value={item.batteryPer}
                     />
                   </div>
                   <div style={styles.values}>
-                    < ValueContainer
-                        title={'eco2'}
-                        value={item.eco2}
-                        unit={'ppm'}
-                        max={3000}
+                    <ValueContainer
+                      title={"eco2"}
+                      value={item.eco2}
+                      unit={"ppm"}
+                      max={3000}
                     />
-                    < ValueContainer
-                        title={'temperature'}
-                        value={item.ambientTemp}
-                        unit={'°C'}
-                        max={40}
+                    <ValueContainer
+                      title={"temperature"}
+                      value={item.ambientTemp}
+                      unit={"°C"}
+                      max={40}
                     />
-                    < ValueContainer
-                        title={'humidity'}
-                        value={item.humidity}
-                        unit={'%'}
-                        max={100}
+                    <ValueContainer
+                      title={"humidity"}
+                      value={item.humidity}
+                      unit={"%"}
+                      max={100}
                     />
-                    < ValueContainer
-                        title={'TVOC'}
-                        value={item.tvoc}
-                        unit={'ppb'}
-                        max={861}
+                    <ValueContainer
+                      title={"TVOC"}
+                      value={item.tvoc}
+                      unit={"ppb"}
+                      max={861}
                     />
                   </div>
+                  <Graph name={item.deviceName} date={date} />
                 </div>
-            ))}
-          </div>
-      )
-      }
+              ) : (
+                <div>
+                  <h1>No data found</h1>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
