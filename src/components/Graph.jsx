@@ -127,7 +127,7 @@ export default function TestGraph({ date, name }) {
     },
     yaxis: {
       title: {
-        text: "ECO2",
+        text: "PPM ECO2",
       },
 
       min: 350,
