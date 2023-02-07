@@ -149,7 +149,7 @@ export default function TestGraph({ date, name }) {
           series={chartData}
           type="area"
           height={350}
-          width={3000}
+          width={2000}
         />
       ) : (
         <div>

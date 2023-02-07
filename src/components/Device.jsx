@@ -9,7 +9,7 @@ const styles = {
   wrapper: {
     position: "relative",
     top: 400,
-    width: 3000,
+    width: 2000,
     boxShadow: "black 10px 5px 5px",
     backgroundColor: "white",
     margin: 20,
