@@ -8,8 +8,8 @@ const url = "https://co2-server-app.herokuapp.com/devices";
 const styles = {
   wrapper: {
     position: "relative",
-    top: 500,
-    width: 2000,
+
+    width: '90vw',
     boxShadow: "black 10px 5px 5px",
     backgroundColor: "white",
     margin: 20,
@@ -44,22 +44,27 @@ const styles = {
 export default function Device() {
   const [deviceData, setDeviceData] = useState([]);
   const today = new Date();
+  const sec = new Date().getSeconds();
   const date = today.toISOString().split("T")[0];
+  const fetch = () => {
+
+    getData(url, async (result) => {
+      const { data, error } = result;
+      setDeviceData(data);
+      if (error) {
+        // Handle error
+        return;
+      }
+    });
+  }
 
   useEffect(() => {
-    setInterval(() => {
-      getData(url, (result) => {
-        const { data, error } = result;
-        if (error) {
-          // Handle error
-          return;
-        }
-
-        if (data) {
-          setDeviceData(data);
-        }
-      });
-    }, 1000);
+    fetch()
+    setTimeout(()=>{
+      setInterval(() => {
+     fetch()
+      }, 6000);
+    }, (60 - sec) * 1000);
   }, []);
   return (
     <>

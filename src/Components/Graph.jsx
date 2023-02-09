@@ -4,20 +4,32 @@ import Chart from "react-apexcharts";
 
 import { getData } from "../API/getData";
 
-export default function TestGraph({ date, name }) {
+export default function Graph({ date, name }) {
   const [chartData, setChartData] = useState([]);
 
   const [data, setData] = useState(null);
+  const sec = new Date().getSeconds();
+  const [firstIteration, setFirstIteration] = useState(true)
   const url =
     "https://co2-server-app.herokuapp.com/timestamps/date/" +
     date +
     "/name/" +
     name;
+const fetch = () => {
 
+  getData(url, async (result) => {
+    const { data, error } = result;
+    setData(data);
+    if (error) {
+      // Handle error
+      return;
+    }
+  });
+}
   useEffect(() => {
-    async function fetchData() {
+    async function sortData() {
       if (data) {
-
+        setFirstIteration(false)
         const getMinuteDerivative = (i) => {
           if (i > 0 && i < data.set.length - 1) {
             const y1 = data.set[i - 1].ECO2;
@@ -61,21 +73,22 @@ export default function TestGraph({ date, name }) {
         ]);
       }
     }
-    fetchData();
+    sortData();
   }, [data]);
 
   useEffect(() => {
-    setInterval(() => {
-      getData(url, async (result) => {
-        const { data, error } = result;
-        setData(data);
-        if (error) {
-          // Handle error
-          return;
-        }
-      });
-    }, 1000);
+
+    fetch()
+    setTimeout(()=>{
+      setInterval(() => {
+        fetch()
+
+      }, 6000);
+    }, (60 - sec) * 1000);
   }, []);
+
+
+
 
   const options = {
     chart: {
@@ -142,14 +155,14 @@ export default function TestGraph({ date, name }) {
   };
 
   return (
-    <div>
+    <div style={{width: '90vw'}}>
       {chartData.length > 0 ? (
         <Chart
           options={options}
           series={chartData}
           type="area"
           height={350}
-          width={2000}
+          width={'100%'}
         />
       ) : (
         <div>
