@@ -27,8 +27,10 @@ const fetch = () => {
   });
 }
   useEffect(() => {
+    console.log('fetching')
     async function sortData() {
       if (data) {
+        console.log('done')
         setFirstIteration(false)
         const getMinuteDerivative = (i) => {
           if (i > 0 && i < data.set.length - 1) {
@@ -83,7 +85,7 @@ const fetch = () => {
       setInterval(() => {
         fetch()
 
-      }, 6000);
+      }, 60000);
     }, (60 - sec) * 1000);
   }, []);
 

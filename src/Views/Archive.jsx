@@ -37,6 +37,9 @@ const styles = {
     },
     dateSelect: {
 
+    },
+    nameSelect: {
+
     }
 
 }
@@ -44,9 +47,11 @@ const styles = {
         <div style={styles.wrapper}>
             <div style={styles.selectContainer}>
             <div style={styles.dateSelect}>
+                <h3>Date</h3>
             <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
             </div>
             <div styles={styles.nameSelect}>
+                <h3>Name</h3>
             <select value={name} onChange={ e => setName(e.target.value)}>
                 <option value="mill_1">Mill_1</option>
                 <option value="mill_2">Mill_2</option>

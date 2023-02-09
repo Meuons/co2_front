@@ -63,7 +63,7 @@ export default function Device() {
     setTimeout(()=>{
       setInterval(() => {
      fetch()
-      }, 6000);
+      }, 60000);
     }, (60 - sec) * 1000);
   }, []);
   return (
