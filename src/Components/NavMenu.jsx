@@ -37,7 +37,7 @@ const styles = {
 class App extends Component {
     render() {
         return (
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 <div style={styles.container} >
                     <div style={styles.navbar}>
                     <ul style={styles.navbar}>
@@ -51,8 +51,8 @@ class App extends Component {
                     </div>
                     <div style={styles.routeContainer}>
                     <Routes>
-                        <Route exact path='/' element={< Home />}></Route>
-                        <Route exact path='/Archive' element={< Archive />}></Route>
+                        <Route exact path='/co2-front' element={< Home />}></Route>
+                        <Route exact path='/co2_front/Archive' element={< Archive />}></Route>
                     </Routes>
                     </div>
                 </div>
