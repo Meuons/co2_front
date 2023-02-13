@@ -27,7 +27,6 @@ export default function StackedGraph({ parameters }) {
   };
   console.log(xAxis());
   const fetch = (date, name) => {
-
     const url =
       "https://co2-server-app.herokuapp.com/timestamps/date/" +
       date +

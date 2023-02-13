@@ -7,15 +7,13 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function Archive() {
   console.log("archive");
-  const date = new Date()
+  const date = new Date();
   date.setDate(date.getDate() - 1);
   const [count, setCount] = useState(0);
 
   const [selects, setSelects] = useState([
     { name: "mill_1", date: date.toISOString().split("T")[0] },
   ]);
-
-
 
   const styles = {
     wrapper: {
@@ -35,9 +33,11 @@ export default function Archive() {
       alignItems: "center",
       justifyContent: "center",
       margin: 20,
+      width: "5%",
       backgroundColor: "#f8f9fa",
       padding: 30,
       borderRadius: 10,
+      minWidth: 150,
     },
     xBtn: {
       position: "relative",
@@ -46,9 +46,18 @@ export default function Archive() {
       backgroundColor: "#F00",
       color: "#fff",
     },
-    dateSelect: {},
-    nameSelect: {},
+    dateSelect: {
+      width: 80,
+    },
+    nameSelect: {
+      fontSize: "1rem",
+    },
   };
+  const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+    <button style={styles.dateSelect} onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
 
   const addSelects = (obj) => {
     const arr = selects.concat([obj]);
@@ -67,7 +76,6 @@ export default function Archive() {
     if (changeDate) {
       obj.date = prop.toISOString().split("T")[0];
     } else {
-      console.log("other" + prop);
       obj.name = prop;
     }
     setSelects(arr);
@@ -83,6 +91,7 @@ export default function Archive() {
               <DatePicker
                 selected={new Date(item.date)}
                 onChange={(date) => updateSelects(i, date, true)}
+                customInput={<CustomInput />}
               />
             </div>
             <div styles={styles.nameSelect}>
@@ -101,7 +110,12 @@ export default function Archive() {
           </div>
         ))}
         <button
-          onClick={() => addSelects({ name: "mill_1", date: new Date() })}
+          onClick={() =>
+            addSelects({
+              name: "mill_1",
+              date: date.toISOString().split("T")[0],
+            })
+          }
         >
           +
         </button>
