@@ -1,70 +1,112 @@
 import Device from "../Components/Device";
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect, button } from "react";
 
 import DatePicker from "react-datepicker";
-import Graph from "../Components/Graph";
+import StackedGraph from "../Components/StackedGraph";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Archive() {
-    const [startDate, setStartDate] = useState(new Date());
-    const [name, setName] = useState('mill_1');
-    const [stringDate, setStringDate]= useState(new Date().toISOString().split("T")[0]);
-    const [key, setKey] = useState('')
+  console.log("archive");
+  const date = new Date()
+  date.setDate(date.getDate() - 1);
+  const [count, setCount] = useState(0);
 
-    useEffect(() => {
-        setStringDate(startDate.toISOString().split("T")[0]);
-        setKey(startDate.toISOString().split("T")[0])
-    }, [startDate]);
+  const [selects, setSelects] = useState([
+    { name: "mill_1", date: date.toISOString().split("T")[0] },
+  ]);
 
-    useEffect(() => {
-        setKey(name)
-    }, [name]);
-const styles = {
+
+
+  const styles = {
     wrapper: {
-        position: "relative",
-
-        width: '90vw',
-        boxShadow: "black 10px 5px 5px",
-        backgroundColor: "white",
-        margin: 20,
-
+      position: "relative",
+      width: "90vw",
+      boxShadow: "black 10px 5px 5px",
+      backgroundColor: "white",
+      margin: 20,
     },
-    selectContainer:{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-
+    selectsArea: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
-    dateSelect: {
-
+    selectContainer: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      margin: 20,
+      backgroundColor: "#f8f9fa",
+      padding: 30,
+      borderRadius: 10,
     },
-    nameSelect: {
+    xBtn: {
+      position: "relative",
+      bottom: 25,
+      left: 20,
+      backgroundColor: "#F00",
+      color: "#fff",
+    },
+    dateSelect: {},
+    nameSelect: {},
+  };
 
+  const addSelects = (obj) => {
+    const arr = selects.concat([obj]);
+    setSelects(arr);
+    setCount(count + 1);
+  };
+  const deleteSelects = (i) => {
+    const arr = selects;
+    arr.splice(i, 1);
+    setSelects(arr);
+    setCount(count + 1);
+  };
+  const updateSelects = (i, prop, changeDate) => {
+    const arr = selects;
+    const obj = selects[i];
+    if (changeDate) {
+      obj.date = prop.toISOString().split("T")[0];
+    } else {
+      console.log("other" + prop);
+      obj.name = prop;
     }
+    setSelects(arr);
+    setCount(count + 1);
+  };
 
-}
-    return (
-        <div style={styles.wrapper}>
-            <div style={styles.selectContainer}>
+  return (
+    <div style={styles.wrapper}>
+      <div style={styles.selectsArea}>
+        {selects.map((item, i) => (
+          <div key={i} style={styles.selectContainer}>
             <div style={styles.dateSelect}>
-                <h3>Date</h3>
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+              <DatePicker
+                selected={new Date(item.date)}
+                onChange={(date) => updateSelects(i, date, true)}
+              />
             </div>
             <div styles={styles.nameSelect}>
-                <h3>Name</h3>
-            <select value={name} onChange={ e => setName(e.target.value)}>
+              <select
+                value={item.name}
+                onChange={(e) => updateSelects(i, e.target.value, false)}
+              >
                 <option value="mill_1">Mill_1</option>
                 <option value="mill_2">Mill_2</option>
                 <option value="mill_3">Mill_3</option>
-            </select>
+              </select>
             </div>
-            </div>
-            <Graph
-                key={key}
-                name={name}
-                date={stringDate}
-            />
-
-</div>
-    )
+            <button style={styles.xBtn} onClick={() => deleteSelects(i)}>
+              x
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={() => addSelects({ name: "mill_1", date: new Date() })}
+        >
+          +
+        </button>
+      </div>
+      <StackedGraph key={count} parameters={selects} />
+    </div>
+  );
 }

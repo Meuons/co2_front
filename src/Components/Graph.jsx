@@ -9,29 +9,28 @@ export default function Graph({ date, name }) {
 
   const [data, setData] = useState(null);
   const sec = new Date().getSeconds();
-  const [firstIteration, setFirstIteration] = useState(true)
+
   const url =
     "https://co2-server-app.herokuapp.com/timestamps/date/" +
     date +
     "/name/" +
     name;
-const fetch = () => {
-
-  getData(url, async (result) => {
-    const { data, error } = result;
-    setData(data);
-    if (error) {
-      // Handle error
-      return;
-    }
-  });
-}
+  const fetch = () => {
+    getData(url, async (result) => {
+      const { data, error } = result;
+      setData(data);
+      if (error) {
+        // Handle error
+        return;
+      }
+    });
+  };
   useEffect(() => {
-    console.log('fetching')
+    console.log("fetching");
     async function sortData() {
       if (data) {
-        console.log('done')
-        setFirstIteration(false)
+        console.log("done");
+
         const getMinuteDerivative = (i) => {
           if (i > 0 && i < data.set.length - 1) {
             const y1 = data.set[i - 1].ECO2;
@@ -79,18 +78,14 @@ const fetch = () => {
   }, [data]);
 
   useEffect(() => {
-
-    fetch()
-    setTimeout(()=>{
+    console.log("HI");
+    fetch();
+    setTimeout(() => {
       setInterval(() => {
-        fetch()
-
+        fetch();
       }, 60000);
     }, (60 - sec) * 1000);
   }, []);
-
-
-
 
   const options = {
     chart: {
@@ -157,14 +152,14 @@ const fetch = () => {
   };
 
   return (
-    <div style={{width: '90vw'}}>
+    <div style={{ width: "90vw" }}>
       {chartData.length > 0 ? (
         <Chart
           options={options}
           series={chartData}
           type="area"
           height={350}
-          width={'100%'}
+          width={"100%"}
         />
       ) : (
         <div>

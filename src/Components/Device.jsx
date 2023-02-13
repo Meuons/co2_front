@@ -9,7 +9,7 @@ const styles = {
   wrapper: {
     position: "relative",
 
-    width: '90vw',
+    width: "90vw",
     boxShadow: "black 10px 5px 5px",
     backgroundColor: "white",
     margin: 20,
@@ -47,7 +47,6 @@ export default function Device() {
   const sec = new Date().getSeconds();
   const date = today.toISOString().split("T")[0];
   const fetch = () => {
-
     getData(url, async (result) => {
       const { data, error } = result;
       setDeviceData(data);
@@ -56,13 +55,13 @@ export default function Device() {
         return;
       }
     });
-  }
+  };
 
   useEffect(() => {
-    fetch()
-    setTimeout(()=>{
+    fetch();
+    setTimeout(() => {
       setInterval(() => {
-     fetch()
+        fetch();
       }, 60000);
     }, (60 - sec) * 1000);
   }, []);

@@ -8,7 +8,6 @@ function App() {
     <div className="App">
       <div className="Wrapper">
         <NavMenu />
-
       </div>
     </div>
   );
